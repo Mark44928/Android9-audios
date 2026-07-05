@@ -272,18 +272,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ---
 
-## Star History
-
-<a href="https://star-history.com/#Mark44928/Android9-audios&Date">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=Mark44928/Android9-audios&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=Mark44928/Android9-audios&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=Mark44928/Android9-audios&type=Date" />
- </picture>
-</a>
-
----
-
 <p align="center">
   <i>Classic Android 9 sounds, preserved and organized.</i>
 </p>
