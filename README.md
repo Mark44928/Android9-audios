@@ -8,7 +8,6 @@
   <a href="https://github.com/Mark44928/Android9-audios/stargazers"><img src="https://img.shields.io/github/stars/Mark44928/Android9-audios?color=f0bd00" alt="Stars"/></a>
   <a href="https://github.com/Mark44928/Android9-audios/network/members"><img src="https://img.shields.io/github/forks/Mark44928/Android9-audios?color=00b8d9" alt="Forks"/></a>
   <a href="https://github.com/Mark44928/Android9-audios/issues"><img src="https://img.shields.io/github/issues/Mark44928/Android9-audios?color=ff6b6b" alt="Issues"/></a>
-  <a href="https://github.com/Mark44928/Android9-audios/releases"><img src="https://img.shields.io/github/v/release/Mark44928/Android9-audios?color=37d67a" alt="Latest Release"/></a>
   <a href="https://github.com/Mark44928/Android9-audios/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Mark44928/Android9-audios?color=blue" alt="License"/></a>
   <img src="https://img.shields.io/badge/Android-9%20(Pie)-green" alt="Android Version"/>
   <img src="https://img.shields.io/badge/files-217-blue" alt="File Count"/>
