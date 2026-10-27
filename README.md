@@ -14,17 +14,6 @@
   <img src="https://img.shields.io/badge/size-~8.7MB-orange" alt="Size"/>
 </p>
 
-<div align="center">
-
-[![GitHub Repo](https://img.shields.io/badge/GitHub-Main%20Repository-black?logo=github)](https://github.com/Mark44928/Android9-audios)
-[![Platform](https://img.shields.io/badge/platform-Android%209%20(Pie)-green)](https://github.com/Mark44928/Android9-audios)
-[![Format](https://img.shields.io/badge/format-OGG-blue)](https://github.com/Mark44928/Android9-audios)
-[![Files](https://img.shields.io/badge/files-217-orange)](https://github.com/Mark44928/Android9-audios)
-[![Size](https://img.shields.io/badge/size-~8.7MB-red)](https://github.com/Mark44928/Android9-audios)
-[![License](https://img.shields.io/badge/license-MIT-blue)](https://github.com/Mark44928/Android9-audios/blob/main/LICENSE)
-
-</div>
-
 ---
 
 > **What is this?** A collection of 217 stock `.ogg` audio files extracted from Android 9 (Pie). Use them to restore default ringtones, alarms, notifications, and system sounds on custom ROMs, or as production-ready audio assets in your Android app projects.
@@ -152,7 +141,7 @@ Dock.ogg, Effect_Tick.ogg, KeypressDelete.ogg, KeypressInvalid.ogg, KeypressRetu
 
 ## Contributing
 
-Found a missing file or want to add audio from another Android version? Open a PR or [submit an issue](https://github.com/Mark44928/Android9-audios/issues).
+Found a missing file or want to add audio from another Android version? Open a PR or [submit an issue](https://github.com/Mark44928/Android9-audios/issues). All contributors follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ---
 
