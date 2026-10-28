@@ -145,6 +145,29 @@ Found a missing file or want to add audio from another Android version? Open a P
 
 ---
 
+## Verification
+
+The archive includes a SHA256 checksum in [`SHA256SUMS.txt`](SHA256SUMS.txt).
+Verify integrity with:
+
+```bash
+sha256sum -c SHA256SUMS.txt
+```
+
+Or run the provided script:
+
+```bash
+./verify.sh
+```
+
+Expected output:
+```
+✓ SHA256 matches: 8f175277be1444a6b7b79f288d14ae9302f7b34f55a0bbba5f80d13ea6973742
+  217 audio files
+```
+
+---
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
