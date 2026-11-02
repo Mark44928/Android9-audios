@@ -31,8 +31,16 @@ else
 fi
 
 echo
-echo "Archive contents:"
-7z l "$ARCHIVE" 2>/dev/null | grep "....A" | grep -c "\.ogg$" | xargs -I{} echo "  {} audio files"
+
+# Try to show archive contents if 7z is available
+if command -v 7z &>/dev/null; then
+    echo "Archive contents:"
+    file_count=$(7z l "$ARCHIVE" 2>/dev/null | grep -E "\.ogg$|\.OGG$" | wc -l)
+    echo "  $file_count audio files"
+else
+    echo "Archive contents:"
+    echo "  (7z not installed, cannot list contents)"
+fi
 
 echo
 echo "Verification complete."
