@@ -11,6 +11,7 @@
   <a href="https://github.com/Mark44928/Android9-audios/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Mark44928/Android9-audios?color=blue" alt="License"/></a>
   <img src="https://img.shields.io/badge/Android-9%20(Pie)-green" alt="Android Version"/>
   <img src="https://img.shields.io/badge/files-217-blue" alt="File Count"/>
+  <img src="https://img.shields.io/badge/list%20version-v1.1.0-blue" alt="Version"/>
   <img src="https://img.shields.io/badge/size-~8.7MB-orange" alt="Size"/>
 </p>
 
@@ -39,7 +40,7 @@
 | **Notifications** | 75 | Alert sounds — Adara, Beat Box, Cricket, Vega, and more |
 | **Ringtones** | 102 | Call tones — ANDROMEDA, Backroad, CrazyDream, Hydra, and more |
 | **UI Sounds** | 17 | System tones — Dock, Lock, Camera Click, Wireless Charging, and more |
-| **Total** | **217** | All files in `.ogg` format at 44.1kHz |
+| **Total** | **217** | All files in `.ogg` (Vorbis) format — 190 at 44.1 kHz and 27 at 48 kHz |
 
 ---
 
@@ -70,6 +71,31 @@ Extract the archive with 7-Zip (`pkg install 7zip` on Termux, `7z x` on Linux/Wi
 ```bash
 7z x "audios from Android 9.7z"
 # creates audio/alarms, audio/notifications, audio/ringtones, audio/ui
+```
+
+Or use the bundled extract-and-verify script — it extracts into `$TMPDIR` and
+checks **every one of the 217 files** against the per-file checksums in
+[`SHA256SUMS-full.txt`](SHA256SUMS-full.txt) (the outer `SHA256SUMS.txt` only
+proves the `.7z` itself is intact; the full list proves the contents are):
+
+```bash
+bash extract.sh
+```
+
+> **Heads-up — 10 filenames collide case-insensitively.** Ten basenames exist
+> twice in the archive (e.g. `Argon` in both *alarms* and *notifications*;
+> `ANDROMEDA`/`Andromeda`, `Hydra`/`hydra`, `Perseus`/`PERSEUS`, `Vega`/`vega`,
+> `Arcturus`/`arcturus`, `UrsaMinor`/`ursaminor`, `CanisMajor`/`CANISMAJOR`,
+> `Helium`/`helium`, `Krypton`/`krypton`). Extracting to a case-insensitive
+> filesystem (Windows, macOS default, exFAT/FAT) silently overwrites one of the
+> pair. Extract on Linux/ext4, or extract into two separate folders, if you
+> need both variants.
+
+Verify the download any time with the bundled checker (it checks the SHA-256
+**and** that the archive still holds all 217 files):
+
+```bash
+bash verify.sh
 ```
 
 ---
@@ -164,7 +190,28 @@ Expected output:
 ```
 ✓ SHA256 matches: 8f175277be1444a6b7b79f288d14ae9302f7b34f55a0bbba5f80d13ea6973742
   217 audio files
+✓ File count matches the advertised 217
 ```
+
+For deepest verification, `bash extract.sh` checks all 217 extracted files
+against [`SHA256SUMS-full.txt`](SHA256SUMS-full.txt).
+
+---
+
+## Changelog
+
+### v1.1.0
+- `verify.sh` now asserts the archive still holds **217** files (a truncated or
+  re-packed archive fails loudly instead of shipping half the sounds)
+- **Per-file checksums**: new [`SHA256SUMS-full.txt`](SHA256SUMS-full.txt) with
+  the SHA-256 of every one of the 217 files, and `extract.sh` to extract +
+  verify them (the outer checksum cannot detect inner-file corruption)
+- Corrected the "all files at 44.1 kHz" claim: the real distribution is
+  **190 files at 44.1 kHz and 27 at 48 kHz**
+- Documented the 10 case-insensitive basename collisions and clarified AOSP
+  (Apache-2.0) vs repo-file (MIT) licensing
+- CI verifies archive integrity, file count, per-file checksums, and every
+  README stat against the archive itself
 
 ---
 
@@ -172,7 +219,10 @@ Expected output:
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-> **Note:** These audio files are stock Android assets. They are provided as-is for reference and development purposes.
+> **Note on licensing:** The audio files themselves are stock AOSP assets
+> (covered by the Apache License 2.0 in the Android source tree); this repo's
+> MIT license covers the repository files (`verify.sh`, docs, checksums) — not
+> the audio payload. Respect the AOSP terms when redistributing the sounds.
 
 ---
 

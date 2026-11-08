@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify archive integrity and file count
+        run: bash verify.sh
+      - name: Verify every extracted file against SHA256SUMS-full.txt
+        run: bash extract.sh
+      - name: README stats match the archive
+        run: bash tests/audio_stats.sh
