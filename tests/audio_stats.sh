@@ -5,8 +5,15 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-TMPDIR=${TMPDIR:-/data/data/com.termux/files/usr/tmp}
-mkdir -p "$TMPDIR"
+# Prefer the caller's TMPDIR, then the Termux default, then any writable
+# temp dir — CI runners have neither, and a hardcoded fallback failed there.
+if [ -n "${TMPDIR:-}" ] && [ -d "$TMPDIR" ] && [ -w "$TMPDIR" ]; then
+    :
+elif [ -d /data/data/com.termux/files/usr/tmp ] && [ -w /data/data/com.termux/files/usr/tmp ]; then
+    TMPDIR=/data/data/com.termux/files/usr/tmp
+else
+    TMPDIR=$(mktemp -d 2>/dev/null || echo ".")
+fi
 work="$TMPDIR/a9-stats"
 rm -rf "$work"; mkdir -p "$work"
 
