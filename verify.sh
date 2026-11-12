@@ -37,7 +37,7 @@ echo
 # files, so a truncated or re-packed archive fails loudly instead of silently
 # shipping half the sounds.
 if command -v 7z &>/dev/null; then
-    file_count=$(7z l -slt "$ARCHIVE" 2>/dev/null | sed -n 's/^Path = //p' | grep -c '\.ogg$')
+    file_count=$(7z l -slt "$ARCHIVE" 2>/dev/null | sed -n 's/^Path = //p' | grep -c '\.ogg$' || true)
     echo "Archive contents: $file_count audio files"
     if [[ "$file_count" -ne "$EXPECTED_FILES" ]]; then
         echo "✗ FILE COUNT MISMATCH: expected $EXPECTED_FILES, archive holds $file_count"
