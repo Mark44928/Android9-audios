@@ -1,4 +1,22 @@
 #!/data/data/com.termux/files/usr/bin/env bash
+
+if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ] || [ "${1:-}" = "help" ]; then
+    cat <<USAGE
+Usage:
+  bash verify.sh    Verify the tarball's SHA256 against SHA256SUMS.txt (read-only)
+  bash extract.sh    Extract to a temporary directory (TMPDIR, never into the repo)
+  bash tests/audio_stats.sh   Print per-codec bitrates and durations
+
+Environment:
+  TMPDIR  Where the archive is extracted and temporary files are written
+          (default: /data/data/com.termux/files/usr/tmp)
+USAGE
+    exit 0
+fi
+if [ "$#" -gt 0 ]; then
+    echo "unexpected argument: $1 (try --help)" >&2
+    exit 2
+fi
 # verify.sh — verify SHA256 and file count of the Android 9 audio archive
 
 set -euo pipefail
