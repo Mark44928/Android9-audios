@@ -34,7 +34,7 @@ if [ -n "${TMPDIR:-}" ] && [ -d "$TMPDIR" ] && [ -w "$TMPDIR" ]; then
 elif [ -d /data/data/com.termux/files/usr/tmp ] && [ -w /data/data/com.termux/files/usr/tmp ]; then
     TMPDIR=/data/data/com.termux/files/usr/tmp
 else
-    TMPDIR=$(mktemp -d 2>/dev/null || echo ".")
+    TMPDIR=$(mktemp -d 2>/dev/null) || { echo "ERROR: no writable temp directory found for extraction" >&2; exit 1; }
 fi
 export TMPDIR
 mkdir -p "$TMPDIR"
