@@ -98,6 +98,23 @@ Verify the download any time with the bundled checker (it checks the SHA-256
 bash verify.sh
 ```
 
+Want to see what's inside without unpacking anything? `browse.sh` is a
+read-only listing — it writes nothing:
+
+```bash
+bash browse.sh            # every path in the archive
+bash browse.sh alarm      # only names matching "alarm"
+```
+
+Playing these on a desktop player? `export-m3u.sh` writes an `.m3u`
+playlist of every track in archive order (paths, no extraction), so you can
+hand it straight to VLC/mpv after `extract.sh`:
+
+```bash
+bash export-m3u.sh                 # -> $TMPDIR/android9-audios.m3u (217 tracks)
+bash export-m3u.sh ~/my-list.m3u   # custom destination
+```
+
 ---
 
 ## Installation
@@ -171,33 +188,6 @@ Found a missing file or want to add audio from another Android version? Open a P
 
 ---
 
-## Verification
-
-The archive includes a SHA256 checksum in [`SHA256SUMS.txt`](SHA256SUMS.txt).
-Verify integrity with:
-
-```bash
-sha256sum -c SHA256SUMS.txt
-```
-
-Or run the provided script:
-
-```bash
-./verify.sh
-```
-
-Expected output:
-```
-✓ SHA256 matches: 8f175277be1444a6b7b79f288d14ae9302f7b34f55a0bbba5f80d13ea6973742
-  217 audio files
-✓ File count matches the advertised 217
-```
-
-For deepest verification, `bash extract.sh` checks all 217 extracted files
-against [`SHA256SUMS-full.txt`](SHA256SUMS-full.txt).
-
----
-
 ## Changelog
 
 ### v1.1.0
@@ -239,18 +229,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 > (covered by the Apache License 2.0 in the Android source tree); this repo's
 > MIT license covers the repository files (`verify.sh`, docs, checksums) — not
 > the audio payload. Respect the AOSP terms when redistributing the sounds.
-
----
-
-## You Might Also Like
-
-| Repository | Description |
-|:--:|:--|
-| [NoNameOS](https://github.com/Mark44928/NoNameOS) | Pure C++ hobbyist OS simulation |
-| [Anti-Bloatware List](https://github.com/Mark44928/Anti-bloatware-list-for-Android-TV-Boxes-and-Sticks-for-rooted) | Debloat rooted Android TV sticks |
-| [SnakTUI](https://github.com/Mark44928/SnakTUI) | Neon terminal Snake game built with Python + Textual |
-| [Grub Blasters](https://github.com/Mark44928/GrubBlastersHTML) | Single-file Worms-style artillery game |
-| [CalculaHTML](https://github.com/Mark44928/CalculaHTML) | Modern calculator PWA with 14 themes |
 
 ---
 
