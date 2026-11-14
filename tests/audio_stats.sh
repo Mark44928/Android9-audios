@@ -30,7 +30,7 @@ if [ -n "${TMPDIR:-}" ] && [ -d "$TMPDIR" ] && [ -w "$TMPDIR" ]; then
 elif [ -d /data/data/com.termux/files/usr/tmp ] && [ -w /data/data/com.termux/files/usr/tmp ]; then
     TMPDIR=/data/data/com.termux/files/usr/tmp
 else
-    TMPDIR=$(mktemp -d 2>/dev/null || echo ".")
+    TMPDIR=$(mktemp -d 2>/dev/null) || { echo "ERROR: no writable temp directory found for stats extraction" >&2; exit 1; }
 fi
 work="$TMPDIR/a9-stats"
 rm -rf "$work"; mkdir -p "$work"
