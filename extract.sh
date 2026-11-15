@@ -32,7 +32,7 @@ if [ "$ONLY_SET" = "1" ] && [ -z "$ONLY" ]; then
     exit 2
 fi
 CATS=$(printf '%s' "$ONLY" | tr ',' ' ')
-if [ -z "$CATS" ]; then
+if [ "$ONLY_SET" = "1" ] && [ -z "$CATS" ]; then
     echo "--only needs at least one category" >&2
     exit 2
 fi
@@ -50,7 +50,7 @@ for cat in $CATS; do
     esac
 done
 CATS="${DEDUPED# }"
-if [ -z "$CATS" ]; then
+if [ "$ONLY_SET" = "1" ] && [ -z "$CATS" ]; then
     echo "--only needs at least one category" >&2
     exit 2
 fi
