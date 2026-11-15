@@ -115,6 +115,15 @@ bash export-m3u.sh                 # -> $TMPDIR/android9-audios.m3u (217 tracks)
 bash export-m3u.sh ~/my-list.m3u   # custom destination
 ```
 
+Need just one? `random.sh` picks a random track from the archive; `--extract`
+copies that single file to `$TMPDIR/android9-random` (nothing is written into
+the repo):
+
+```bash
+bash random.sh                # prints one track path
+bash random.sh --extract      # prints it and extracts just that file
+```
+
 ---
 
 ## Installation
