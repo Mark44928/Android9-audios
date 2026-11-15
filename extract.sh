@@ -5,6 +5,9 @@ if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ] || [ "${1:-}" = "help" ]; then
 Usage:
   bash verify.sh    Verify the tarball's SHA256 against SHA256SUMS.txt (read-only)
   bash extract.sh    Extract to a temporary directory (TMPDIR, never into the repo)
+  bash extract.sh --only alarms,ui
+                     Verify everything, then keep only the named categories
+                     (alarms, notifications, ringtones, ui)
   bash tests/audio_stats.sh   Print per-codec bitrates and durations
 
 Environment:
@@ -13,8 +16,42 @@ Environment:
 USAGE
     exit 0
 fi
-if [ "$#" -gt 0 ]; then
-    echo "unexpected argument: $1 (try --help)" >&2
+
+ONLY=""
+ONLY_SET=0
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        --only)   shift; ONLY="${1:-}"; ONLY_SET=1 ;;
+        --only=*) ONLY="${1#*=}"; ONLY_SET=1 ;;
+        *)        echo "unexpected argument: $1 (try --help)" >&2; exit 2 ;;
+    esac
+    shift
+done
+if [ "$ONLY_SET" = "1" ] && [ -z "$ONLY" ]; then
+    echo "--only needs a category list" >&2
+    exit 2
+fi
+CATS=$(printf '%s' "$ONLY" | tr ',' ' ')
+if [ -z "$CATS" ]; then
+    echo "--only needs at least one category" >&2
+    exit 2
+fi
+for cat in $CATS; do
+    case "$cat" in
+        alarms|notifications|ringtones|ui) ;;
+        *) echo "unknown category: $cat (alarms, notifications, ringtones, ui)" >&2; exit 2 ;;
+    esac
+done
+DEDUPED=""
+for cat in $CATS; do
+    case " $DEDUPED " in
+        *" $cat "*) ;;
+        *) DEDUPED="$DEDUPED $cat" ;;
+    esac
+done
+CATS="${DEDUPED# }"
+if [ -z "$CATS" ]; then
+    echo "--only needs at least one category" >&2
     exit 2
 fi
 # extract.sh — extract the archive and verify every file against the
@@ -65,4 +102,15 @@ else
     echo "✗ checksum mismatch inside the archive" >&2
     exit 1
 fi
-echo "Extracted tree: $WORK"
+if [ "$ONLY_SET" = "1" ]; then
+    DEST="$TMPDIR/android9-audios-only"
+    rm -rf "$DEST"
+    mkdir -p "$DEST/audio"
+    for cat in $CATS; do
+        cp -a "$WORK/audio/$cat" "$DEST/audio/"
+    done
+    echo "Selected categories: $CATS"
+    echo "Extracted tree: $DEST"
+else
+    echo "Extracted tree: $WORK"
+fi

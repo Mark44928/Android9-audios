@@ -80,6 +80,8 @@ proves the `.7z` itself is intact; the full list proves the contents are):
 
 ```bash
 bash extract.sh
+# keep only some categories (all 217 files are still verified first)
+bash extract.sh --only alarms,ui
 ```
 
 > **Heads-up — 10 filenames collide case-insensitively.** Ten basenames exist
