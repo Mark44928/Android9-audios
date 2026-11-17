@@ -18,7 +18,7 @@ command -v 7z >/dev/null 2>&1 || {
 # compressed size; everything after that is the path (spaces preserved).
 if [ -n "$FILTER" ]; then
     7z l -ba "$ARCHIVE" | awk '{ for (i = 1; i <= 5; i++) $i = ""; sub(/^ +/, ""); print }' \
-        | grep -i -- "$FILTER" || { echo "(no matches for '$FILTER')" >&2; exit 1; }
+        | grep -iF -- "$FILTER" || { echo "(no matches for '$FILTER')" >&2; exit 1; }
 else
     7z l -ba "$ARCHIVE" | awk '{ for (i = 1; i <= 5; i++) $i = ""; sub(/^ +/, ""); print }'
 fi
