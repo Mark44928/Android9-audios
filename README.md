@@ -123,6 +123,9 @@ the repo):
 
 ```bash
 bash random.sh                # prints one track path
+bash random.sh --category alarms   # only alarm tones
+bash random.sh --category ringtones --count 5  # five unique ringtones
+bash random.sh --list --category notifications   # show matching paths
 bash random.sh --extract      # prints it and extracts just that file
 ```
 
