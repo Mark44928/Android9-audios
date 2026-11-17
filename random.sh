@@ -21,10 +21,10 @@ while [ "$#" -gt 0 ]; do
         --list) LIST=1 ;;
         --category)
             [ $# -ge 2 ] || { echo "ERROR: --category needs alarms, notifications, ringtones or ui" >&2; exit 2; }
-            CATEGORY="$(printf '%s' "$2" | tr 'A-Z' 'a-z')"
+            CATEGORY="$(printf '%s' "$2" | tr '[:upper:]' '[:lower:]')"
             shift
             ;;
-        --category=*) CATEGORY="$(printf '%s' "${1#--category=}" | tr 'A-Z' 'a-z')" ;;
+        --category=*) CATEGORY="$(printf '%s' "${1#--category=}" | tr '[:upper:]' '[:lower:]')" ;;
         --count)
             [ $# -ge 2 ] || { echo "ERROR: --count needs a number" >&2; exit 2; }
             COUNT="$2"
@@ -39,9 +39,9 @@ done
 
 case "$CATEGORY" in
     ""|alarms|notifications|ringtones|ui) ;;
-    alarm|alarms) CATEGORY=alarms ;;
-    notification|notification) CATEGORY=notifications ;;
-    ringtone|ringtones) CATEGORY=ringtones ;;
+    alarm) CATEGORY=alarms ;;
+    notification) CATEGORY=notifications ;;
+    ringtone) CATEGORY=ringtones ;;
     *) echo "ERROR: --category must be alarms, notifications, ringtones or ui" >&2; exit 2 ;;
 esac
 
@@ -49,7 +49,15 @@ case "$COUNT" in
     ''|*[!0-9]*) echo "ERROR: --count needs a whole number" >&2; exit 2 ;;
 esac
 [ "$COUNT" -ge 1 ] && [ "$COUNT" -le 50 ] || { echo "ERROR: --count must be 1-50" >&2; exit 2; }
-OUT="${TMPDIR:-.}/android9-random"
+OUT_DEFAULT_TMP="${TMPDIR:-}"
+if [ -n "$OUT_DEFAULT_TMP" ] && [ -d "$OUT_DEFAULT_TMP" ] && [ -w "$OUT_DEFAULT_TMP" ]; then
+    :
+elif [ -d /data/data/com.termux/files/usr/tmp ] && [ -w /data/data/com.termux/files/usr/tmp ]; then
+    OUT_DEFAULT_TMP=/data/data/com.termux/files/usr/tmp
+else
+    OUT_DEFAULT_TMP=$(mktemp -d)
+fi
+OUT="${OUT_DEFAULT_TMP}/android9-random"
 
 command -v 7z >/dev/null 2>&1 || {
     echo "ERROR: 7z is required — install with 'pkg install p7zip'" >&2

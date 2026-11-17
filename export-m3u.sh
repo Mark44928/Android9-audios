@@ -4,8 +4,15 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
+if [ -n "${TMPDIR:-}" ] && [ -d "$TMPDIR" ] && [ -w "$TMPDIR" ]; then
+    :
+elif [ -d /data/data/com.termux/files/usr/tmp ] && [ -w /data/data/com.termux/files/usr/tmp ]; then
+    TMPDIR=/data/data/com.termux/files/usr/tmp
+else
+    TMPDIR=$(mktemp -d)
+fi
 ARCHIVE="audios from Android 9.7z"
-OUT="${1:-${TMPDIR:-.}/android9-audios.m3u}"
+OUT="${1:-${TMPDIR}/android9-audios.m3u}"
 
 command -v 7z >/dev/null 2>&1 || {
     echo "ERROR: 7z is required — install with 'pkg install p7zip'" >&2
