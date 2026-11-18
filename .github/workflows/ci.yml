@@ -23,3 +23,5 @@ jobs:
           printf '%s\n' "$out" | grep -q 'android9-audios-only'
       - name: README stats match the archive
         run: bash tests/audio_stats.sh
+      - name: Catalog matches the archive
+        run: bash gen-catalog.sh --check
