@@ -25,3 +25,5 @@ jobs:
         run: bash tests/audio_stats.sh
       - name: Catalog matches the archive
         run: bash gen-catalog.sh --check
+      - name: Playlist export is safe and complete
+        run: bash tests/test_export_m3u.sh
