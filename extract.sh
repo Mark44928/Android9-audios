@@ -89,12 +89,34 @@ if ! command -v 7z >/dev/null 2>&1; then
     exit 1
 fi
 
+# Verify the outer archive hash BEFORE extracting — a tampered .7z can never
+# pass this, so extra/malicious entries cannot reach $WORK.
+if [[ ! -f "SHA256SUMS.txt" ]]; then
+    echo "ERROR: SHA256SUMS.txt not found — refusing to extract an unverifiable archive" >&2
+    exit 1
+fi
+expected_outer=$(awk '{print $1}' SHA256SUMS.txt)
+actual_outer=$(sha256sum "$ARCHIVE" | awk '{print $1}')
+if [[ "$expected_outer" != "$actual_outer" ]]; then
+    echo "✗ SHA256 mismatch on the archive itself — refusing to extract" >&2
+    exit 1
+fi
+
 rm -rf "$WORK"
 mkdir -p "$WORK"
 ROOT="$(pwd)"
 echo "Extracting to $WORK ..."
 7z x -y -o"$WORK" "$ARCHIVE" >/dev/null
 
+# Defense in depth: the extracted tree must contain exactly the 217 checksummed
+# files — no extras, no missing, no directories with unexpected entries.
+expected_list=$(awk '{print $2}' "$SUMS" | LC_ALL=C sort)
+actual_list=$(cd "$WORK" && find . -type f | sed 's|^\./||' | LC_ALL=C sort)
+if [[ "$expected_list" != "$actual_list" ]]; then
+    echo "✗ File list mismatch: archive does not hold exactly the 217 expected files" >&2
+    rm -rf "$WORK"
+    exit 1
+fi
 echo "Verifying 217 files against $SUMS ..."
 if (cd "$WORK" && sha256sum -c "$ROOT/$SUMS" --quiet); then
     echo "✓ all files match SHA256SUMS-full.txt"

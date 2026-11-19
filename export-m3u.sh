@@ -9,7 +9,8 @@ Usage: bash export-m3u.sh [output.m3u]
 
 Writes a playlist of every audio track in the committed archive.
 Relative output paths are resolved from the caller's directory.
-Default: $TMPDIR/android9-audios.m3u
+Default: $TMPDIR/android9-audios.m3u (paths point into the default
+extraction tree, android9-audios-extract/, so extract first)
 EOF
 }
 
@@ -32,11 +33,13 @@ fi
 ARCHIVE="$ROOT/audios from Android 9.7z"
 
 if [ -n "${1:-}" ]; then
+    CUSTOM_OUT=1
     case "$1" in
         /*) OUT="$1" ;;
         *) OUT="$CALLER_DIR/$1" ;;
     esac
 else
+    CUSTOM_OUT=0
     OUT="$TMPDIR/android9-audios.m3u"
 fi
 
@@ -61,6 +64,11 @@ if ! 7z l -ba "$ARCHIVE" \
     | grep -Ei '\.(ogg|oga|mp3|wav|flac|m4a|opus)$' > "$TMP_OUT"; then
     echo "ERROR: no audio files found in the archive" >&2
     exit 1
+fi
+# The default playlist lives next to the default extraction dir, so its
+# relative paths must point into it; a custom destination keeps archive paths.
+if [ "$CUSTOM_OUT" != "1" ]; then
+    sed -i 's|^|android9-audios-extract/|' "$TMP_OUT"
 fi
 
 COUNT=$(grep -c . "$TMP_OUT" || true)
