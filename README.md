@@ -115,8 +115,8 @@ playlist of every track in archive order (paths, no extraction), so you can
 hand it straight to VLC/mpv after `extract.sh`:
 
 ```bash
-bash export-m3u.sh                 # -> $TMPDIR/android9-audios.m3u (217 tracks)
-bash export-m3u.sh ~/my-list.m3u   # custom destination
+bash export-m3u.sh                 # -> $TMPDIR/android9-audios.m3u (217 tracks; paths point into the default extraction tree)
+bash export-m3u.sh ~/my-list.m3u   # custom destination (paths stay archive-relative)
 ```
 
 Need just one? `random.sh` picks a random track from the archive; `--extract`
@@ -147,7 +147,7 @@ bash gen-catalog.sh --check   # exit 0 if catalog.html is up to date (CI)
 
 ### On a rooted Android device
 
-1. Extract the `.7z` archive (see above)
+1. Extract the `.7z` archive (see above) — it lands in `$TMPDIR/android9-audios-extract/`
 2. Push the files to your system partition:
 
 ```bash
@@ -155,7 +155,8 @@ bash gen-catalog.sh --check   # exit 0 if catalog.html is up to date (CI)
 adb root
 adb remount
 
-# Push all audio files
+# Push all audio files (from the extracted tree — extract.sh prints its path; default below)
+cd /data/data/com.termux/files/usr/tmp/android9-audios-extract
 adb push audio/alarms/ /system/media/audio/alarms/
 adb push audio/notifications/ /system/media/audio/notifications/
 adb push audio/ringtones/ /system/media/audio/ringtones/
@@ -237,7 +238,9 @@ Found a missing file or want to add audio from another Android version? Open a P
 Tiny, dependency-free tools from the same family:
 
 - [Pythonator](https://github.com/Mark44928/Pythonator) — Python rewrite of Plusalator — stdlib-only, `--eval`/`--json`
+- [Solvamath](https://github.com/Mark44928/Solvamath) — terminal math puzzle game — seven puzzle types, daily seed, achievements
 - [Bluney](https://github.com/Mark44928/Bluney) — blue-injected theme family — dark + light, single palette.json
+- [Yellen](https://github.com/Mark44928/Yellen) — golden-yellow theme family — dark + light, single palette.json
 - [Mark44928](https://github.com/Mark44928) — profile and project index
 - [plusafetch](https://github.com/Mark44928/plusafetch) — C++23 fetch for Termux — ~23 ms, zero subprocesses on the default path
 - [Plusalator](https://github.com/Mark44928/Plusalator) — C++17 calculator REPL — Qalculate-flavored, ghost autosuggest, 18 themes
