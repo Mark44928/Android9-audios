@@ -1,23 +1,34 @@
 #!/data/data/com.termux/files/usr/bin/env bash
-# export-m3u.sh [output.m3u] — build a playlist from the archive, no extraction.
+# export-m3u.sh [--shuffle] [output.m3u] — build a playlist from the archive, no extraction.
 # Defaults to $TMPDIR/android9-audios.m3u when no path is given.
 set -euo pipefail
 
 usage() {
     cat <<'EOF'
-Usage: bash export-m3u.sh [output.m3u]
+Usage: bash export-m3u.sh [--shuffle] [output.m3u]
 
 Writes a playlist of every audio track in the committed archive.
+--shuffle randomises track order (handy for a surprise alarm rotation).
 Relative output paths are resolved from the caller's directory.
 Default: $TMPDIR/android9-audios.m3u (paths point into the default
 extraction tree, android9-audios-extract/, so extract first)
 EOF
 }
 
-case "${1:-}" in
-    -h|--help) usage; exit 0 ;;
-    -*) echo "ERROR: unknown option: $1" >&2; usage >&2; exit 2 ;;
-esac
+SHUFFLE=0
+OUT_ARG=""
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help) usage; exit 0 ;;
+        --shuffle) SHUFFLE=1 ;;
+        -*) echo "ERROR: unknown option: $1" >&2; usage >&2; exit 2 ;;
+        *)
+            [ -z "$OUT_ARG" ] || { echo "ERROR: only one output path may be given" >&2; usage >&2; exit 2; }
+            OUT_ARG="$1"
+            ;;
+    esac
+    shift
+done
 
 CALLER_DIR=$(pwd)
 ROOT=$(cd "$(dirname "$0")" && pwd)
@@ -32,11 +43,11 @@ else
 fi
 ARCHIVE="$ROOT/audios from Android 9.7z"
 
-if [ -n "${1:-}" ]; then
+if [ -n "$OUT_ARG" ]; then
     CUSTOM_OUT=1
-    case "$1" in
-        /*) OUT="$1" ;;
-        *) OUT="$CALLER_DIR/$1" ;;
+    case "$OUT_ARG" in
+        /*) OUT="$OUT_ARG" ;;
+        *) OUT="$CALLER_DIR/$OUT_ARG" ;;
     esac
 else
     CUSTOM_OUT=0
@@ -58,12 +69,18 @@ if [ "$OUT" = "$ARCHIVE" ]; then
 fi
 
 TMP_OUT="$OUT.tmp.$$"
-trap 'rm -f "$TMP_OUT"' EXIT
+TMP_SHUF="$TMP_OUT.shuf"
+trap 'rm -f "$TMP_OUT" "$TMP_SHUF"' EXIT
 if ! 7z l -ba "$ARCHIVE" \
     | awk '{ for (i = 1; i <= 5; i++) $i = ""; sub(/^ +/, ""); print }' \
     | grep -Ei '\.(ogg|oga|mp3|wav|flac|m4a|opus)$' > "$TMP_OUT"; then
     echo "ERROR: no audio files found in the archive" >&2
     exit 1
+fi
+if [ "$SHUFFLE" = "1" ]; then
+    command -v shuf >/dev/null 2>&1 || { echo "ERROR: shuf is required for --shuffle — install with 'pkg install coreutils'" >&2; exit 1; }
+    shuf "$TMP_OUT" > "$TMP_SHUF"
+    mv -f -- "$TMP_SHUF" "$TMP_OUT"
 fi
 # The default playlist lives next to the default extraction dir, so its
 # relative paths must point into it; a custom destination keeps archive paths.
