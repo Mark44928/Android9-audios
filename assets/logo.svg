@@ -1,14 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-labelledby="t d">
   <title id="t">Android9-audios</title>
-  <desc id="d">Android 9 Audios logo: green headphones with sound waves on a dark panel.</desc>
-  <rect width="1200" height="300" rx="28" fill="#0B1410"/>
-  <rect x="1" y="1" width="1198" height="298" rx="27" fill="none" stroke="#27513A" stroke-width="2"/>
-  <circle cx="150" cy="150" r="96" fill="#102019" stroke="#244534" stroke-width="2"/>
-  <path d="M88 157v-9a62 62 0 0 1 124 0v9" fill="none" stroke="#3DDC84" stroke-width="12" stroke-linecap="round"/>
-  <rect x="74" y="145" width="28" height="54" rx="13" fill="#3DDC84"/>
-  <rect x="198" y="145" width="28" height="54" rx="13" fill="#3DDC84"/>
-  <path d="M222 168c16 0 26 9 26 22M230 152c22 0 38 12 38 29" fill="none" stroke="#FFD166" stroke-width="5" stroke-linecap="round"/>
-  <text x="306" y="152" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="82" font-weight="800" letter-spacing="3" fill="#E9FFF1">ANDROID9 AUDIO</text>
-  <text x="310" y="202" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="18" letter-spacing="4" fill="#83B397">217 STOCK SOUNDS · CHECKSUMMED</text>
-  <text x="1138" y="252" text-anchor="end" font-family="ui-monospace,monospace" font-size="14" letter-spacing="3" fill="#4A6B58">MARK44928</text>
+  <desc id="d">Minimal Android9-audios logo: green sound bars and a dark wordmark.</desc>
+  <rect width="1200" height="300" rx="28" fill="#0B0D12"/>
+  <g fill="none" stroke="#7BD88F" stroke-width="14" stroke-linecap="round">
+    <path d="M98 132 V168 M124 110 V190 M150 92 V208 M176 110 V190 M202 132 V168"/>
+  </g>
+  <text x="300" y="180" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif" font-size="68" font-weight="650" letter-spacing="-2" fill="#F5F7FA">Android9-audios</text>
 </svg>
