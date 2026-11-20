@@ -117,6 +117,7 @@ hand it straight to VLC/mpv after `extract.sh`:
 ```bash
 bash export-m3u.sh                 # -> $TMPDIR/android9-audios.m3u (217 tracks; paths point into the default extraction tree)
 bash export-m3u.sh ~/my-list.m3u   # custom destination (paths stay archive-relative)
+bash export-m3u.sh --shuffle       # randomised track order
 ```
 
 Need just one? `random.sh` picks a random track from the archive; `--extract`

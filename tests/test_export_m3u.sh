@@ -30,4 +30,12 @@ grep -Fq "refusing to overwrite the source archive" "$TMP/refuse.log"
     grep -Fq "Wrote $TMP/playlist.m3u (217 tracks)" run.log
 )
 
+(
+    cd "$TMP"
+    bash "$ROOT/export-m3u.sh" --shuffle shuffled.m3u > shuffle.log
+    test "$(grep -c . shuffled.m3u)" -eq 217
+    test "$(sort -u shuffled.m3u | grep -c .)" -eq 217
+    grep -Fq "Wrote $TMP/shuffled.m3u (217 tracks)" shuffle.log
+)
+
 echo "export-m3u regression checks OK"
