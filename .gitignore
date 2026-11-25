@@ -1,0 +1,15 @@
+# .gitignore — Android9-audios
+
+# Editors / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Temp / extraction (never extract into the repo)
+*.log
+.tmp/
+/extracted/
