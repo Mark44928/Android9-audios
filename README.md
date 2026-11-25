@@ -274,3 +274,7 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 <p align="center">
   <i>Classic Android 9 sounds, preserved and organized.</i>
 </p>
+
+---
+
+**More projects:** [Mark44928's hub](https://mark44928.github.io/Mark44928/) — a family of dependency-free tools for Termux, Linux, and the terminal.
