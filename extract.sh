@@ -1,5 +1,9 @@
 #!/data/data/com.termux/files/usr/bin/env bash
 
+if [ "${1:-}" = "--version" ] || [ "${1:-}" = "-V" ] || [ "${1:-}" = "version" ]; then
+    echo "extract.sh 1.0.0"
+    exit 0
+fi
 if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ] || [ "${1:-}" = "help" ]; then
     cat <<USAGE
 Usage:
