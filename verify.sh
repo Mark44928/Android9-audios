@@ -1,5 +1,11 @@
 #!/data/data/com.termux/files/usr/bin/env bash
 
+VERSION="1.0.0"
+
+if [ "${1:-}" = "--version" ] || [ "${1:-}" = "-V" ] || [ "${1:-}" = "version" ]; then
+    echo "verify.sh $VERSION"
+    exit 0
+fi
 if [ "${1:-}" = "--help" ] || [ "${1:-}" = "-h" ] || [ "${1:-}" = "help" ]; then
     cat <<USAGE
 Usage:
